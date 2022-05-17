@@ -5,5 +5,8 @@ export default class StudentTile extends LightningElement {
         Name: 'Nana', 
         PhotoUrl: '/services/images/photo/003B0FakePictId',
     };
-    @api selected = false; 
+    @api selected = false;
+    studentClick(){ 
+        alert(this.student.Name); 
+    } 
 }
