@@ -1,10 +1,9 @@
-import { api } from 'lwc';
-import { track } from 'lwc';
-import { LightningElement  } from 'lwc';
-
+import { LightningElement,api, track,wire} from 'lwc';
+import getStudents from '@salesforce/apex/StudentBrowser.getStudents'; 
 export default class StudentBrowser extends LightningElement {
+    @wire(getStudents, { instructorId: "", courseDeliveryId: ""}) students;
 
-    @track studentList = [];
+   /*@track studentList = [];
 
     constructor() { 
     super(); 
@@ -19,5 +18,6 @@ export default class StudentBrowser extends LightningElement {
     } 
     ); 
  }) 
-}
+}*/
+
 }
