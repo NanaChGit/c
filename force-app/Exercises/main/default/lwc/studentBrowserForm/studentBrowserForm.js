@@ -1,10 +1,13 @@
 import { LightningElement,api,track,wire } from 'lwc';
 import getInstructors from '@salesforce/apex/StudentBrowserForm.getInstructors';
 import getDeliveriesByInstructor from '@salesforce/apex/StudentBrowserForm.getDeliveriesByInstructor'; 
+
 export default class StudentBrowserForm extends LightningElement {
     //111111111111111111111111111-------------------------------------
-    @track instructors = [];
+    @track instructors = []; 
     error; 
+
+
 
     @wire(getInstructors) 
     wired_getInstructors({ error, data }) { 
@@ -16,12 +19,12 @@ export default class StudentBrowserForm extends LightningElement {
             }); 
             data.forEach(instructor => { 
                 this.instructors.push({ 
-                value: instructor.Id, 
-                label: instructor.Name 
+                    value: instructor.Id, 
+                    label: instructor.Name 
                 }); 
             }); 
         } else if (error) { 
-        this.error = error; 
+            this.error = error; 
         }
     }
 
@@ -42,7 +45,7 @@ export default class StudentBrowserForm extends LightningElement {
 		    data.forEach(delivery => {
 			    this.deliveries.push({
 				    value: delivery.Id,
-				    label: `${delivery.Start_Date__c} ${delivery.Location__c} ${delivery.Attendee_Count__c} students`
+				    label: `${delivery.Id} ${delivery.Name} students`
 			    });
 		    });
 	    } else if (error) {
@@ -54,5 +57,21 @@ export default class StudentBrowserForm extends LightningElement {
     onInstructorChange(event) { 
         this.selectedDeliveryId = ''; 
         this.selectedInstructorId = event.target.value; 
+        this.notifyParent();
+    }
+
+    onDeliveryChange(event) {
+        this.selectedDeliveryId = event.target.value; 
+        this.notifyParent();
+    }
+
+    notifyParent() { 
+        const evt = new CustomEvent('filterchange', { 
+            detail: { 
+                instructorId: this.selectedInstructorId, 
+                deliveryId: this.selectedDeliveryId, 
+            } 
+        }); 
+        this.dispatchEvent(evt); 
     }
 }
