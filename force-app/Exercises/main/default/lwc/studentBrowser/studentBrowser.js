@@ -8,7 +8,7 @@ export default class StudentBrowser extends LightningElement {
         this.selectedDeliveryId = event.detail.deliveryId; 
         this.selectedInstructorId = event.detail.instructorId; 
     }
-
+    
 
    /*@track studentList = [];
 
