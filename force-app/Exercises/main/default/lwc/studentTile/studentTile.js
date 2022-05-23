@@ -5,7 +5,7 @@ export default class StudentTile extends LightningElement {
         Name: 'Nana', 
         PhotoUrl: '/services/images/photo/003B0FakePictId',
     };
-   // @api selected = false;
+  //  @api selected = false;
     studentClick(){ 
         //c/challenge_currentDateTimealert(this.student.Name); 
         const evt = new CustomEvent('studentselected', { 
@@ -16,6 +16,6 @@ export default class StudentTile extends LightningElement {
 
     @api selectedStudentId = ''; 
     get tileSelected() { 
-        return (this.selectedStudentId===this.student.Id) ? "tile selected" : "tile"; 
+        return (this.selectedStudentId===this.student.Id)? "tile selected" : "tile"; 
     }
 }

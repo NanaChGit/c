@@ -1,8 +1,8 @@
 import { LightningElement,api,track,wire } from 'lwc';
 import getInstructors from '@salesforce/apex/StudentBrowserForm.getInstructors';
 import getDeliveriesByInstructor from '@salesforce/apex/StudentBrowserForm.getDeliveriesByInstructor'; 
-
-export default class StudentBrowserForm extends LightningElement {
+import { NavigationMixin } from 'lightning/navigation';
+export default class StudentBrowserForm extends NavigationMixin(LightningElement) {
     //111111111111111111111111111-------------------------------------
     @track instructors = []; 
     error; 
@@ -31,6 +31,8 @@ export default class StudentBrowserForm extends LightningElement {
   //22222222222222222222222222222222222222222222222222222222222222222222222
     selectedInstructorId = ''; 
     @track deliveries = [];
+
+    @track isButtonDisabled = true; 
     selectedDeliveryId = '';
     @wire(getDeliveriesByInstructor, {instructorId : '$selectedInstructorId'})
     wired_getDeliveriesByInstructor({ error, data }) { 
@@ -57,6 +59,7 @@ export default class StudentBrowserForm extends LightningElement {
     onInstructorChange(event) { 
         this.selectedDeliveryId = ''; 
         this.selectedInstructorId = event.target.value; 
+        this.isButtonDisabled = (this.selectedInstructorId === '');
         this.notifyParent();
     }
 
@@ -73,5 +76,16 @@ export default class StudentBrowserForm extends LightningElement {
             } 
         }); 
         this.dispatchEvent(evt); 
+    }
+
+    onAddNewDelivery() { 
+        //Opens the new Course Delivery record modal dialog. 
+        this[NavigationMixin.Navigate]({ 
+            type: 'standard__objectPage', 
+            attributes: { 
+                objectApiName: 'Contact',//'Course_Delivery__c', 
+                actionName: 'new' 
+            } 
+        }); 
     }
 }
