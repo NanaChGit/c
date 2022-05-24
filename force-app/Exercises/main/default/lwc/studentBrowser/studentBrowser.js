@@ -1,5 +1,7 @@
-import { LightningElement,api, track,wire} from 'lwc';
+import { LightningElement,api,track,wire} from 'lwc';
 import getStudents from '@salesforce/apex/StudentBrowser.getStudents'; 
+import { fireEvent } from 'c/pubsub'; 
+import { CurrentPageReference } from 'lightning/navigation';
 export default class StudentBrowser extends LightningElement {
     selectedDeliveryId = ''; 
     selectedInstructorId = '';
@@ -8,7 +10,16 @@ export default class StudentBrowser extends LightningElement {
         this.selectedDeliveryId = event.detail.deliveryId; 
         this.selectedInstructorId = event.detail.instructorId; 
     }
+
+    @wire(CurrentPageReference) pageRef;
+    handleStudentSelected(event){ 
+        const studentId = event.detail.studentId; 
+        this.updateSelectedStudent(studentId); 
+    }
     
+    updateSelectedStudent(studentId){ 
+        fireEvent(this.pageRef, 'studentChange', { studentId }); 
+    }
 
    /*@track studentList = [];
 

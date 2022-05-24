@@ -64,6 +64,7 @@ export default class StudentBrowserForm extends NavigationMixin(LightningElement
     }
 
     onDeliveryChange(event) {
+        debugger;
         this.selectedDeliveryId = event.target.value; 
         this.notifyParent();
     }

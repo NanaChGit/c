@@ -9,6 +9,7 @@ export default class StudentTile extends LightningElement {
     studentClick(){ 
         //c/challenge_currentDateTimealert(this.student.Name); 
         const evt = new CustomEvent('studentselected', { 
+            bubbles: true, composed: true, 
             detail: { studentId: this.student.Id } 
         }); 
         this.dispatchEvent(evt);
